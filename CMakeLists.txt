@@ -8,7 +8,7 @@ endif()
 
 # Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD 14)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -52,11 +52,16 @@ ament_target_dependencies(${LIBRARY_NAME} INTERFACE
   ${dependencies}
 )
 
+ament_export_include_directories(include)
+ament_export_dependencies(${dependencies})
+ament_export_targets("export_${PROJECT_NAME}" HAS_LIBRARY_TARGET)
+
+
 install(TARGETS ${LIBRARY_NAME}
   EXPORT "export_${PROJECT_NAME}"
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
-  RUNTIME DESTINATION lib
+  RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
 )
 
@@ -67,13 +72,7 @@ install(DIRECTORY include/${PROJECT_NAME}/
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
   find_package(ament_cmake_pytest REQUIRED)
-  find_package(example_interfaces REQUIRED)
   add_subdirectory(test)
 endif()
-
-# ament_export_libraries(${LIBRARY_NAME} INTERFACE)
-ament_export_include_directories(include)
-ament_export_dependencies(${dependencies})
-ament_export_targets("export_${PROJECT_NAME}")
 
 ament_package()
