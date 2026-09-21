@@ -131,7 +131,7 @@ class SingleThreadSpinner: private rclcpp::executors::SingleThreadedExecutor
         }
         if (cancel_spin_called_.load()) break;
       }
-      RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Single Thread Spinner was cancelled.");
+      RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Single Thread Spinner was cancelled.");
     } catch (rclcpp::exceptions::RCLError & ex) {
       RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Failed to spin nodes: %s", ex.what());
     }
